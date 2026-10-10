@@ -6,201 +6,250 @@
 <meta name="theme-color" content="#fff7e8">
 <title>南輝六神のおみくじ</title>
 <style>
-  :root {
-    --paper: #fffaf0;
-    --ink: #47352f;
-    --muted: #806b60;
-    --red: #b94d48;
-    --red-dark: #923b38;
-    --gold: #d4a64d;
-    --green: #617e63;
-    --line: #ead9bd;
-  }
-  * { box-sizing: border-box; }
-  body {
-    margin: 0;
-    min-height: 100vh;
-    color: var(--ink);
-    background:
-      radial-gradient(ellipse at top, rgba(255,255,255,.9), transparent 60%),
-      repeating-linear-gradient(0deg, rgba(183,143,83,.035) 0 1px, transparent 1px 5px),
-      #f5ead6;
-    font-family: "Yu Gothic", "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
-    display: flex;
-    justify-content: center;
-    padding: 22px 14px 34px;
-  }
-  .page { width: 100%; max-width: 540px; }
-  .paper {
-    position: relative;
-    overflow: hidden;
-    background: var(--paper);
-    border: 1px solid #e6d0a9;
-    border-radius: 24px;
-    box-shadow: 0 12px 32px rgba(91, 58, 37, .12);
-    padding: 28px 22px 24px;
-    text-align: center;
-  }
-  .paper::before, .paper::after {
-    content: "✿";
-    position: absolute;
-    color: rgba(185,77,72,.14);
-    font-size: 76px;
-    line-height: 1;
-    pointer-events: none;
-  }
-  .paper::before { top: -8px; left: -12px; transform: rotate(-20deg); }
-  .paper::after { right: -10px; bottom: -13px; transform: rotate(20deg); }
-  .seal {
-    display: inline-flex; align-items: center; justify-content: center;
-    width: 68px; height: 68px; border-radius: 50%;
-    background: var(--red); color: #fff8e8;
-    border: 3px double #f4dba9;
-    font-size: 29px; margin-bottom: 10px;
-    box-shadow: 0 3px 0 rgba(146,59,56,.12);
-  }
-  .eyebrow { color: var(--green); font-size: 12px; letter-spacing: .2em; font-weight: 700; }
-  h1 { margin: 7px 0 8px; font-size: clamp(27px, 7vw, 36px); letter-spacing: .06em; line-height: 1.35; }
-  .subtitle { margin: 0 auto; color: var(--muted); font-size: 14px; line-height: 1.8; max-width: 340px; }
-  .ornament { color: var(--gold); letter-spacing: .3em; margin: 20px 0; }
-  .intro { font-size: 15px; line-height: 1.9; margin: 0 auto 20px; max-width: 360px; }
-  button {
-    appearance: none; border: 0; cursor: pointer; touch-action: manipulation;
-    font: inherit; font-weight: 700; letter-spacing: .04em;
-  }
-  .draw {
-    display: block; width: 100%; max-width: 320px; margin: 0 auto;
-    padding: 16px 18px; border-radius: 999px;
-    color: #fffaf0; background: var(--red);
-    box-shadow: 0 5px 0 var(--red-dark);
-    transition: transform .12s ease, box-shadow .12s ease;
-  }
-  .draw:active { transform: translateY(3px); box-shadow: 0 2px 0 var(--red-dark); }
-  .draw:focus-visible, .again:focus-visible { outline: 3px solid #4d7cba; outline-offset: 4px; }
-  .result {
-    display: none; margin-top: 25px; text-align: left;
-    border: 1px solid var(--line); border-radius: 18px;
-    background: rgba(255,255,255,.7); padding: 20px 17px 17px;
-    animation: appear .35s ease both;
-  }
-  .result.visible { display: block; }
-  @keyframes appear { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
-  .result-top { text-align: center; }
-  .tiny-label { font-size: 11px; color: var(--green); letter-spacing: .16em; font-weight: 700; }
-  .god-name { margin: 6px 0 4px; font-size: 25px; color: var(--red-dark); }
-  .god-title { display: inline-block; padding: 5px 12px; border-radius: 999px; background: #f6ebd4; color: #72552d; font-size: 12px; }
-  .label { margin: 18px 0 7px; font-size: 12px; color: var(--green); font-weight: 800; letter-spacing: .12em; }
-  .oracle { margin: 0; font-size: 16px; line-height: 1.95; white-space: pre-line; }
-  .detail { display: flex; gap: 10px; align-items: flex-start; padding: 11px 12px; background: #fff7e8; border-radius: 12px; line-height: 1.65; }
-  .detail-icon { flex: 0 0 auto; font-size: 21px; }
-  .detail strong { display: block; font-size: 12px; color: var(--muted); margin-bottom: 2px; }
-  .detail span { font-weight: 700; }
-  .again { display: block; width: 100%; margin-top: 18px; padding: 13px 16px; border-radius: 999px; background: var(--green); color: white; }
-  .footer { margin: 19px auto 0; color: var(--muted); font-size: 11px; line-height: 1.8; max-width: 390px; }
-  .six { margin-top: 22px; color: #927b67; font-size: 11px; letter-spacing: .08em; }
-  .hidden-note { font-size: 10px; color: #9b8773; margin-top: 8px; }
-  @media (max-width: 380px) {
-    body { padding: 12px 8px 24px; }
-    .paper { padding: 24px 16px 20px; border-radius: 20px; }
-    .result { padding: 17px 13px 14px; }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
-  }
+:root {
+  --paper: #fffaf0;
+  --ink: #47352f;
+  --muted: #806b60;
+  --red: #b94d48;
+  --red-dark: #923b38;
+  --gold: #d4a64d;
+  --green: #617e63;
+  --line: #ead9bd;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--ink);
+  background: 
+    radial-gradient(ellipse at top, rgba(255,255,255,.9), transparent 60%),
+    repeating-linear-gradient(0deg, rgba(183,143,83,.035) 0 1px, transparent 1px 5px),
+    #f5ead6;
+  font-family: "Yu Gothic", "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+  display: flex;
+  justify-content: center;
+  padding: 22px 14px 34px;
+}
+.page { width: 100%; max-width: 540px; }
+.paper {
+  position: relative;
+  overflow: hidden;
+  background: var(--paper);
+  border: 1px solid #e6d0a9;
+  border-radius: 24px;
+  box-shadow: 0 12px 32px rgba(91, 58, 37, .12);
+  padding: 28px 22px 24px;
+  text-align: center;
+}
+.seal {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 68px; height: 68px; border-radius: 50%;
+  background: var(--red); color: #fff8e8;
+  border: 3px double #f4dba9;
+  font-size: 29px; margin-bottom: 10px;
+  box-shadow: 0 3px 0 rgba(146,59,56,.12);
+}
+.eyebrow { color: var(--green); font-size: 12px; letter-spacing: .2em; font-weight: 700; }
+h1 { margin: 7px 0 8px; font-size: clamp(27px, 7vw, 36px); letter-spacing: .06em; line-height: 1.3; }
+.subtitle { margin: 0 auto; color: var(--muted); font-size: 14px; line-height: 1.8; max-width: 380px; }
+.ornament { color: var(--gold); letter-spacing: .3em; margin: 20px 0; }
+
+/* おみくじ演出用のアニメーション */
+@keyframes shake {
+  0% { transform: translate(1px, 1px) rotate(0deg); }
+  20% { transform: translate(-3px, 0px) rotate(-1deg); }
+  40% { transform: translate(3px, -2px) rotate(1deg); }
+  60% { transform: translate(-1px, 2px) rotate(0deg); }
+  80% { transform: translate(1px, -1px) rotate(1deg); }
+  100% { transform: translate(0, 0) rotate(0deg); }
+}
+.shaking {
+  animation: shake 0.4s ease-in-out;
+}
+
+button {
+  appearance: none; border: 0; cursor: pointer; touch-action: manipulation;
+  font: inherit; font-weight: 700; letter-spacing: .04em;
+}
+.draw {
+  display: block; width: 100%; max-width: 320px; margin: 0 auto;
+  padding: 16px 18px; border-radius: 999px;
+  color: #fffaf0; background: var(--red);
+  box-shadow: 0 5px 0 var(--red-dark);
+  transition: transform .12s ease, box-shadow .12s ease;
+}
+.draw:active { transform: translateY(3px); box-shadow: 0 2px 0 var(--red-dark); }
+.draw:focus-visible, .again:focus-visible { outline: 3px solid #4d7cba; outline-offset: 2px; }
+
+.result {
+  display: none; margin-top: 25px; text-align: left;
+  border: 1px solid var(--line); border-radius: 18px;
+  background: rgba(255,255,255,.7); padding: 20px 17px 17px;
+  animation: appear .35s ease both;
+}
+.result.visible { display: block; }
+@keyframes appear {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.result-top { text-align: center; }
+
+/* 神様イラスト枠 */
+.god-image-container {
+  width: 160px; height: 160px; margin: 0 auto 12px;
+  border-radius: 20px; overflow: hidden;
+  border: 3px solid var(--gold);
+  background: #fff;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+  display: flex; align-items: center; justify-content: center;
+}
+.god-image {
+  width: 100%; height: 100%; object-fit: contain;
+}
+
+.tiny-label { font-size: 11px; color: var(--green); letter-spacing: .16em; font-weight: 700; }
+.god-name { margin: 6px 0 4px; font-size: 25px; color: var(--red-dark); }
+.god-title { display: inline-block; padding: 5px 12px; border-radius: 999px; background: #faedcd; color: #8a6d3b; font-size: 12px; font-weight: 700; }
+.label { margin: 18px 0 7px; font-size: 12px; color: var(--green); font-weight: 800; letter-spacing: .08em; }
+.oracle { margin: 0; font-size: 16px; line-height: 1.95; white-space: pre-line; }
+.detail { display: flex; gap: 10px; align-items: flex-start; padding: 11px 12px; background: rgba(255,255,255,.9); border-radius: 10px; border: 1px solid #f0e1c7; }
+.detail-icon { flex: 0 0 auto; font-size: 21px; }
+.detail strong { display: block; font-size: 12px; color: var(--muted); margin-bottom: 2px; }
+.detail span { font-weight: 700; }
+.again { display: block; width: 100%; margin-top: 18px; padding: 13px 16px; border-radius: 999px; color: var(--ink); background: #f2e3c6; box-shadow: 0 4px 0 #d9c49e; transition: transform .12s ease, box-shadow .12s ease; }
+.again:active { transform: translateY(2px); box-shadow: 0 2px 0 #d9c49e; }
+.footer { margin: 19px auto 0; color: var(--muted); font-size: 11px; line-height: 1.8; text-align: center; }
+.hidden-note { font-size: 10px; color: #9b8773; margin-top: 8px; text-align: center; }
 </style>
 </head>
 <body>
 <main class="page">
-  <section class="paper" aria-labelledby="title">
-    <div class="seal" aria-hidden="true">六神</div>
-    <div class="eyebrow">NANKI SIX DEITIES</div>
-    <h1 id="title">南輝六神のおみくじ</h1>
-    <p class="subtitle">六柱の神々から、あなたへ今日のお告げ。</p>
-    <div class="ornament" aria-hidden="true">✧　❀　✧</div>
-    <p class="intro">心を落ち着けて、ボタンをひと押し。<br>どの神様が降臨するかは、お楽しみ。</p>
-    <button class="draw" id="drawButton" type="button">神託を授かる ✨</button>
+<section class="paper" id="paperBox" aria-labelledby="title">
+  <div class="seal" aria-hidden="true">六神</div>
+  <div class="eyebrow">NANKI SIX DEITIES</div>
+  <h1 id="title">南輝六神のおみくじ</h1>
+  <p class="subtitle">六柱の神々から、あなたへ今日のお告げ。</p>
+  <div class="ornament" aria-hidden="true">✦ ── ✦ ── ✦</div>
+  <button class="draw" id="drawButton" type="button">おみくじを引く</button>
 
-    <section class="result" id="result" aria-live="polite" aria-atomic="true">
-      <div class="result-top">
-        <div class="tiny-label">あなたに降臨した神様</div>
-        <h2 class="god-name" id="godName"></h2>
-        <div class="god-title" id="godTitle"></div>
+  <section class="result" id="result" aria-live="polite" aria-atomic="true">
+    <div class="result-top">
+      <div class="god-image-container">
+        <img id="godImage" class="god-image" src="" alt="神様イラスト">
       </div>
-      <div class="label">✧ 神託 ✧</div>
-      <p class="oracle" id="oracle"></p>
-      <div class="label">✧ ラッキーアイテム ✧</div>
-      <div class="detail"><div class="detail-icon" aria-hidden="true">🎁</div><div><strong>そばに置くとよいもの</strong><span id="item"></span></div></div>
-      <div class="label">✧ ラッキーアクション ✧</div>
-      <div class="detail"><div class="detail-icon" aria-hidden="true">🍀</div><div><strong>今日やってみるとよいこと</strong><span id="action"></span></div></div>
-      <button class="again" id="againButton" type="button">もう一度、神託を授かる</button>
-    </section>
+      <div class="tiny-label">あなたに降臨した神様</div>
+      <h2 class="god-name" id="godName"></h2>
+      <div class="god-title" id="godTitle"></div>
+    </div>
+    
+    <div class="label">◇ 神託 ◇</div>
+    <p class="oracle" id="oracle"></p>
+    
+    <div class="label">◇ ラッキーアイテム ◇</div>
+    <div class="detail">
+      <div class="detail-icon" aria-hidden="true">🎁</div>
+      <div><strong>アイテム</strong><span id="item"></span></div>
+    </div>
+    
+    <div class="label">◇ ラッキーアクション ◇</div>
+    <div class="detail">
+      <div class="detail-icon" aria-hidden="true">⭐</div>
+      <div><strong>アクション</strong><span id="action"></span></div>
+    </div>
 
-    <div class="six">六柱はみな対等。どの神様のお告げも、あなたへの贈りもの。</div>
-    <p class="footer">このお告げを大切にすれば、今日の運気は上向く……かもしれぬ。<br>なお、神々は一切の責任を負わぬものとする。</p>
-    <p class="hidden-note">南輝六神より、ささやかな福をこめて。</p>
+    <button class="again" id="againButton" type="button">もう一度、おみくじを引く</button>
   </section>
+
+  <p class="footer">このお告げを大切にすれば、今日の運気は上向く……かもしれぬ。<br>なお、神々は一切の責任を負わぬものとする。</p>
+  <p class="hidden-note">南輝六神より、ささやかな福をこめて。</p>
+</section>
 </main>
+
 <script>
 const deities = [
   {
     name: "じゅくちょー神",
     title: "主体性の神",
-    oracle: "誰かが動くのを待つより、まずは自ら動くべし。動けば道は開け、工夫すれば大抵のことは何とかなるであろう。\\nただし、何でも自分でできる者は、人に任せることもまた修行なり。",
+    oracle: "誰かが動くのを待つより、まずは自ら動くべし。動けば道は開け、工夫すれば大抵のことは何とかなるであろう。\nただし、何でも自分でできる者は、人に任せることもまた修行なり。",
     item: "多機能ペン",
-    action: "誰かに一つ、仕事や役割を任せてみる"
+    action: "誰かに一つ、仕事や役割を任せてみる",
+    image: "images/jukucho.png"
   },
   {
     name: "むしあけ神",
     title: "気遣いの神",
-    oracle: "人の心に気を配れば、巡り巡って福となる。腹が満ちれば心も満ちる。\\nされど、気遣い上手な者にばかり頼りすぎるべからず。感謝の言葉こそ、最高のごちそうなり。",
-    item: "おたま",
-    action: "誰かに「ありがとう」を伝える"
+    oracle: "人の心に気を配れば、巡り巡って福となる。腹が満ちれば心も満ちる。\nされど、気遣い上手な者にばかり頼りすぎるべからず。感謝の言葉こそ、最高のごちそうなり。",
+    item: "ピアノ",
+    action: "誰かに「ありがとう」を伝える",
+    image: "images/mushiake.png"
   },
   {
     name: "えみ神",
     title: "ご縁の神",
-    oracle: "人と人との間に福は宿る。場の空気を読み、言葉を選び、縁をつなぐべし。気づけば皆があなたを頼りにしているであろう。\\nなお、頼られすぎた日は自分の予定も忘れずに。",
+    oracle: "人と人との間に福は宿る。場の空気を読み、言葉を選び、縁をつなぐべし。気づけば皆があなたを頼りにしているであろう。\nなお、頼られすぎた日は自分もいたわるように。",
     item: "手帳",
-    action: "誰かの話を最後まで聞く"
+    action: "誰かの話を最後まで聞く",
+    image: "images/emi.png"
   },
   {
     name: "そう神",
     title: "成長の神",
-    oracle: "未熟を恐れるな。挑戦するたび経験値は積み上がる。失敗もまた貴重なドロップアイテムなり。\\n現実世界にもクエストはあるゆえ、ログインしっぱなしには注意すべし。",
+    oracle: "未熟を恐れるな。挑戦するたび経験値は積み上がる。失敗もまた貴重なドロップアイテムなり。\n現実世界にもクエストはあるゆえ、ログインしっぱなしには注意すべし。",
     item: "コントローラー",
-    action: "初めてのことに一つ挑戦する"
+    action: "初めてのことに一つ挑戦する",
+    image: "images/sou.png"
   },
   {
     name: "わかばやし神",
     title: "子ども心の神",
-    oracle: "相手の目線まで降りてみれば、見えなかった世界が見えてくる。難しい話も、伝え方ひとつで心に届く。\\n今日のあなたは、人の心を動かす名演奏家なり。",
-    item: "トロンボーン",
-    action: "相手の目線で一度考えてみる"
+    oracle: "相手の目線まで降りてみれば、見えなかった世界が見えてくる。難しい話も、伝え方ひとつで心に届く。\n今日のあなたは、人の心を動かす名演奏家なり。",
+    item: "トトロのキーホルダー",
+    action: "演歌を歌ってみる",
+    image: "images/wakabayashi.png"
   },
   {
     name: "うえた神",
     title: "発明の神",
-    oracle: "手間を嘆く前に、仕組みを見直すべし。知恵と工夫で、面倒ごとも遊びに変わる。\\nされど、効率化に夢中になりすぎてはならぬ。作ること自体が目的になっておらぬか、と時折振り返るべし。",
-    item: "キーボード",
-    action: "面倒な作業を一つ、工夫で楽にする"
+    oracle: "手間を嘆く前に、仕組みを見直すべし。知恵と工夫で、面倒ごとも遊びに変わる。\nされど、目の前ばかりを見てはならぬ。作ること自体が目的になっておらぬか、と時折振り返るべし。",
+    item: "ノートパソコン",
+    action: "身近なもので工作する",
+    image: "images/ueta.png"
   }
 ];
 
+let currentIndex = -1;
+
 function drawOracle() {
-  const index = Math.floor(Math.random() * deities.length);
-  const deity = deities[index];
-  document.getElementById("godName").textContent = deity.name;
-  document.getElementById("godTitle").textContent = deity.title;
-  document.getElementById("oracle").textContent = deity.oracle.replace(/\\n/g, "\n");
-  document.getElementById("item").textContent = deity.item;
-  document.getElementById("action").textContent = deity.action;
+  const paperBox = document.getElementById("paperBox");
   const result = document.getElementById("result");
+  
+  // 揺れる演出
+  paperBox.classList.add("shaking");
   result.classList.remove("visible");
-  // Restart the small entrance animation when drawing again.
-  void result.offsetWidth;
-  result.classList.add("visible");
-  document.getElementById("drawButton").textContent = "神託を授かり直す ✨";
+
+  setTimeout(() => {
+    paperBox.classList.remove("shaking");
+
+    let index;
+    do {
+      index = Math.floor(Math.random() * deities.length);
+    } while (deities.length > 1 && index === currentIndex);
+    currentIndex = index;
+
+    const deity = deities[index];
+
+    document.getElementById("godName").textContent = deity.name;
+    document.getElementById("godTitle").textContent = deity.title;
+    document.getElementById("oracle").textContent = deity.oracle;
+    document.getElementById("item").textContent = deity.item;
+    document.getElementById("action").textContent = deity.action;
+    document.getElementById("godImage").src = deity.image;
+
+    result.classList.add("visible");
+    document.getElementById("drawButton").textContent = "もう一度、おみくじを引く";
+  }, 400);
 }
+
 document.getElementById("drawButton").addEventListener("click", drawOracle);
 document.getElementById("againButton").addEventListener("click", drawOracle);
 </script>
